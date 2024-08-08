@@ -4,11 +4,18 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.springframework.hateoas.RepresentationModel;
 
-public class UserVO implements Serializable {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.dozermapper.core.Mapping;
+
+
+public class UserVO extends RepresentationModel<UserVO> implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+		@JsonProperty("id")
+		@Mapping("id")
 		private Long key;
 		private String name;
 		private String cpf;
