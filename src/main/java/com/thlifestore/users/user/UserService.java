@@ -47,6 +47,7 @@ public class UserService {
 		UserVO vo = DozerMapperConverter.parseObjectForEntity(user, UserVO.class);
 		return vo;
 	}
+	
 	@Transactional
 	public void delete(Long id) {
 		User user = repository.findById(id).orElseThrow( () -> new CustomNotFoundExceptionHandler(""));
