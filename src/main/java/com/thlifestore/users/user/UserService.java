@@ -32,8 +32,9 @@ public class UserService {
 	
 	@Transactional
 	public UserVO findById(Long id) {
-		UserVO vo = DozerMapperConverter.parseObjectForEntity(repository.findById(id),UserVO.class);
-		vo.add(linkTo(methodOn(UserController.class).findById((vo.getKey()))).withSelfRel());
+		User user = repository.findById(id).orElseThrow( () -> new CustomNotFoundExceptionHandler(""));
+		UserVO vo = DozerMapperConverter.parseObjectForEntity(user,UserVO.class);
+		vo.add(linkTo(methodOn(UserController.class).findById((id))).withSelfRel());
 		return vo;
 	}
 	

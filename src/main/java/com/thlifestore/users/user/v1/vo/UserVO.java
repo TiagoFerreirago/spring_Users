@@ -22,6 +22,9 @@ public class UserVO extends RepresentationModel<UserVO> implements Serializable 
 		private LocalDate dt_Nasc;
 		private String genre;
 		
+		public  UserVO() {
+			
+		}
 		public UserVO(Long key, String name, String cpf, LocalDate dt_Nasc, String genre) {
 			
 			this.key = key;
