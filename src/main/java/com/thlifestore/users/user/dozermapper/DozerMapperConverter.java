@@ -8,7 +8,7 @@ import com.github.dozermapper.core.Mapper;
 
 public class DozerMapperConverter {
 
-	public static Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+	private static Mapper mapper = DozerBeanMapperBuilder.buildDefault();
 	
 	
 	public static <O,D>D parseObjectForEntity(O origin,Class<D> destination){
