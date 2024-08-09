@@ -25,5 +25,10 @@ public class CustomExceptionResponseEntityHandler {
 		ResponseException response = new ResponseException(ex.getMessage(), web.getDescription(false), new Date());
 		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
 	}
+	@ExceptionHandler(CustomBadRequestExceptionHandler.class)
+	public ResponseEntity<ResponseException>badRequestExceptionHandler(Exception ex, WebRequest web){
+		ResponseException response = new ResponseException(ex.getMessage(), web.getDescription(false), new Date());
+		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+	}
 	
 }

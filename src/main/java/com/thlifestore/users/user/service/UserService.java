@@ -1,4 +1,4 @@
-package com.thlifestore.users.user;
+package com.thlifestore.users.user.service;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import com.thlifestore.users.user.controller.UserController;
 import com.thlifestore.users.user.dozermapper.DozerMapperConverter;
 import com.thlifestore.users.user.entities.User;
+import com.thlifestore.users.user.exception.handler.CustomBadRequestExceptionHandler;
 import com.thlifestore.users.user.exception.handler.CustomNotFoundExceptionHandler;
 import com.thlifestore.users.user.repository.UserRepository;
 import com.thlifestore.users.user.v1.vo.UserVO;
@@ -40,6 +41,9 @@ public class UserService {
 	
 	@Transactional
 	public UserVO create(UserVO entity){
+		if(entity==null) {
+			throw new CustomBadRequestExceptionHandler();
+		}
 		User user = DozerMapperConverter.parseObjectForEntity(entity, User.class);
 		UserVO vo = DozerMapperConverter.parseObjectForEntity(repository.save(user), UserVO.class);
 		vo.add(linkTo(methodOn(UserController.class).findById(vo.getKey())).withSelfRel());
@@ -48,6 +52,9 @@ public class UserService {
 	}
 	@Transactional
 	public UserVO update(UserVO entity) {
+		if(entity==null) {
+			throw new CustomBadRequestExceptionHandler();
+		}
 		User user = repository.findById(entity.getKey()).orElseThrow( () -> new CustomNotFoundExceptionHandler(""));
 		user.setCpf(entity.getCpf());
 		user.setDt_Nasc(entity.getDt_Nasc());

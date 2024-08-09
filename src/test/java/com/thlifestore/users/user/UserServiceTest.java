@@ -1,6 +1,8 @@
 package com.thlifestore.users.user;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -18,8 +20,10 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.thlifestore.users.user.entities.User;
+import com.thlifestore.users.user.exception.handler.CustomBadRequestExceptionHandler;
 import com.thlifestore.users.user.mocks.UserMocks;
 import com.thlifestore.users.user.repository.UserRepository;
+import com.thlifestore.users.user.service.UserService;
 import com.thlifestore.users.user.v1.vo.UserVO;
 
 @ExtendWith(MockitoExtension.class)
@@ -124,6 +128,18 @@ UserVO userNine= result.get(9);
 	}
 
 	@Test
+	void testExceptioncreate() {
+		Exception exception = assertThrows(CustomBadRequestExceptionHandler.class, () -> {
+			service.create(null);
+		});
+		
+		String messageActual = exception.getMessage();
+		String messageExpective = "Invalid request: check the parameters provided.";
+		
+		assertEquals(messageActual,messageExpective);
+		
+	}
+	@Test
 	void testUpdate() {
 		User user = input.mockUser();
 		
@@ -146,6 +162,18 @@ UserVO userNine= result.get(9);
 		assertEquals("Male 0",result.getGenre());
 		assertEquals("Lewer P 0",result.getName());
 	}
+	
+	@Test
+	void testExceptionUpdate() {
+		Exception exception = assertThrows(CustomBadRequestExceptionHandler.class, () -> {
+			service.update(null);
+		});
+		
+		String messageActual = exception.getMessage();
+		String messageExpective = "Invalid request: check the parameters provided.";
+		
+		assertEquals(messageActual,messageExpective);
+	}
 
 	@Test
 	void testDelete() {
@@ -155,6 +183,8 @@ UserVO userNine= result.get(9);
 		when(repository.findById(1L)).thenReturn(Optional.of(user));
 		
 		service.delete(1L);
+		
+		verify(repository,times(1)).delete(user);
 					
 	}
 
