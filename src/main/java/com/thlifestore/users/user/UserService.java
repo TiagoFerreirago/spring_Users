@@ -53,7 +53,7 @@ public class UserService {
 		user.setDt_Nasc(entity.getDt_Nasc());
 		user.setGenre(entity.getGenre());
 		user.setName(entity.getName());	
-		UserVO vo = DozerMapperConverter.parseObjectForEntity(user, UserVO.class);
+		UserVO vo = DozerMapperConverter.parseObjectForEntity(repository.save(user), UserVO.class);
 		vo.add(linkTo(methodOn(UserController.class).findById(vo.getKey())).withSelfRel());
 		return vo;
 	}
